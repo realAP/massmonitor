@@ -1,0 +1,27 @@
+name: Build
+
+on: [push,workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: maven
+
+    steps:
+     - uses: actions/checkout@v3
+     - name: Cache maven dependencies
+       id: cache-maven
+       uses: actions/cache@v3
+       env:
+        cache-name: cache-maven-deps
+       with:
+        path: /root/.m2
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+     - uses: actions/setup-java@v3
+       with:
+         distribution: 'temurin'
+         java-version: '17'
+     - name: Build with Maven
+       run: mvn clean package

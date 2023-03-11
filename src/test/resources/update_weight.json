@@ -1,0 +1,28 @@
+{
+  "updateId": 171960281,
+  "editedMessage": {
+    "messageId": 312,
+    "from": {
+      "id": 11111111,
+      "firstName": "firstName",
+      "isBot": false,
+      "userName": "userName",
+      "languageCode": "en"
+    },
+    "date": 1667320716,
+    "chat": {
+      "id": -840825234,
+      "type": "group",
+      "title": "test_group"
+    },
+    "text": "/weight 80",
+    "entities": [
+      {
+        "type": "bot_command",
+        "offset": 0,
+        "length": 7
+      }
+    ],
+    "editDate": 1667321142
+  }
+}
