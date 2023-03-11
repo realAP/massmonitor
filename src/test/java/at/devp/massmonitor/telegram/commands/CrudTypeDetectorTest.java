@@ -1,17 +1,18 @@
 package at.devp.massmonitor.telegram.commands;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-
 import at.devp.massmonitor.crud.CrudType;
 import at.devp.massmonitor.telegram.helper.UpdateExtender;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 class CrudTypeDetectorTest {
 
