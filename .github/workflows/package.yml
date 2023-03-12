@@ -56,4 +56,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: devp1337/massmonitor:${{ steps.vars.outputs.tag }}
+          tags: devp1337/massmonitor:latest
