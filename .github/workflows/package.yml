@@ -45,7 +45,6 @@ jobs:
           SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=realAP_massmonitor
   deliver:
-    needs: build
     name: Delivery
     runs-on: ubuntu-latest
     steps:
