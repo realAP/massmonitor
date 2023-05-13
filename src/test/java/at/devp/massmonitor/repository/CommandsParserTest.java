@@ -1,12 +1,8 @@
 package at.devp.massmonitor.repository;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
 import at.devp.massmonitor.telegram.commands.Commands;
 import at.devp.massmonitor.telegram.commands.CommandsParser;
 import at.devp.massmonitor.telegram.helper.UpdateExtender;
-import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,10 +13,17 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @ExtendWith(MockitoExtension.class)
 class CommandsParserTest {
 
-  @InjectMocks private CommandsParser underTest;
+  @InjectMocks
+  private CommandsParser underTest;
 
   @Test
   void whenGetCommandGivenMessageWithWeightCommandThenReturnDomainCommand() {
@@ -81,4 +84,18 @@ class CommandsParserTest {
 
     assertThat(result, is("82.9"));
   }
+
+  @Test
+  void whenGetEditCommandGivenUnknownCommandThenThrowIllegalOperationException() {
+    final var message = new Message();
+    message.setText("/unknown 82.9");
+    message.setEntities(List.of(new MessageEntity(EntityType.BOTCOMMAND, 0, 8)));
+
+    final var update = new Update();
+    update.setMessage(message);
+    final var extendedUpdate = new UpdateExtender(update);
+
+    assertThrows(UnsupportedOperationException.class, () -> underTest.getEditCommand(extendedUpdate));
+  }
+
 }

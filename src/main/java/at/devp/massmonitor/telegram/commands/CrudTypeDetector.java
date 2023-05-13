@@ -2,19 +2,13 @@ package at.devp.massmonitor.telegram.commands;
 
 import at.devp.massmonitor.crud.CrudType;
 import at.devp.massmonitor.telegram.helper.UpdateExtender;
-import org.springframework.lang.Nullable;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CrudTypeDetector {
 
-  @Nullable
-  public CrudType getType(UpdateExtender update) {
-
-    // does this makes sense?
-    if (update == null) {
-      return null;
-    }
+  public CrudType getType(@NonNull UpdateExtender update) {
 
     if (update.isCommandFromMessage()) {
       final var command = update.getCommand();
@@ -27,6 +21,6 @@ public class CrudTypeDetector {
         return CrudType.UPDATE;
       }
     }
-    return null;
+    throw new IllegalArgumentException("Unknown CrudType");
   }
 }

@@ -12,16 +12,15 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CrudTypeDetectorTest {
 
   private final CrudTypeDetector underTest = new CrudTypeDetector();
 
   @Test
-  void whenUpdateIsNullThenReturnNull() {
-    final var result = underTest.getType(null);
-    assertThat(result, is(nullValue()));
+  void whenUpdateIsNullThenThrowNullPointerException() {
+    assertThrows(NullPointerException.class, () -> underTest.getType(null));
   }
 
   @Test
@@ -61,7 +60,7 @@ class CrudTypeDetectorTest {
   }
 
   @Test
-  void whenGivenMessageWithUnknownCommandThenReturnNull() {
+  void whenGivenMessageWithUnknownCommandThenThrowIllegalArgumentException() {
     final var command = new MessageEntity(EntityType.BOTCOMMAND, 0, 8);
     command.setText(Commands.UNKNOWN.getCommand());
 
@@ -73,13 +72,11 @@ class CrudTypeDetectorTest {
     update.setMessage(message);
     final var extendedUpdate = new UpdateExtender(update);
 
-    final var result = underTest.getType(extendedUpdate);
-
-    assertThat(result, is(nullValue()));
+    assertThrows(IllegalArgumentException.class, () -> underTest.getType(extendedUpdate));
   }
 
   @Test
-  void whenGivenEditedMessageWithUnknownCommandThenReturnNull() {
+  void whenGivenEditedMessageWithUnknownCommandThrowIllegalArgumentException() {
     final var command = new MessageEntity(EntityType.BOTCOMMAND, 0, 8);
     command.setText(Commands.UNKNOWN.getCommand());
 
@@ -91,8 +88,6 @@ class CrudTypeDetectorTest {
     update.setEditedMessage(message);
     final var extendedUpdate = new UpdateExtender(update);
 
-    final var result = underTest.getType(extendedUpdate);
-
-    assertThat(result, is(nullValue()));
+    assertThrows(IllegalArgumentException.class, () -> underTest.getType(extendedUpdate));
   }
 }

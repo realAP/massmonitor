@@ -52,6 +52,6 @@ public class CommandsParser {
     if (telegramCommand.getText().equals(Commands.WEIGHT.getCommand())) {
       return Commands.WEIGHT;
     }
-    return null;
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 }
