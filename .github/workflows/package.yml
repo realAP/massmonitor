@@ -57,7 +57,5 @@ jobs:
           context: .
           push: true
           tags: devp1337/massmonitor:latest
-  deploy:
-    name: deploy
-    runs-on: ubuntu-latest
-    run: curl http://testp.de:9000/hooks/redeploy-webhook
+      - name: deploy
+        run: curl http://testp.de:9000/hooks/redeploy-webhook
