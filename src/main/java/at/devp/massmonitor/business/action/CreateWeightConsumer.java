@@ -24,6 +24,5 @@ public class CreateWeightConsumer {
     // personRepository.put(personDto.getMessageId(), personDto);
     System.out.println("person stored: ");
     System.out.println(personDto);
-    System.out.println("Hello Yoshi");
   }
 }
