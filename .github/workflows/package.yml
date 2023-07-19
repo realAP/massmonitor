@@ -27,12 +27,7 @@ jobs:
         with:
           java-version: 17
           distribution: corretto
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: '${{ runner.os }}-sonar'
-          restore-keys: '${{ runner.os }}-sonar'
+      
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
@@ -59,3 +54,13 @@ jobs:
           tags: devp1337/massmonitor:latest
       - name: deploy
         run: curl http://testp.de:9000/hooks/redeploy-webhook
+  quality:
+    name: sonar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: '${{ runner.os }}-sonar'
+          restore-keys: '${{ runner.os }}-sonar'
