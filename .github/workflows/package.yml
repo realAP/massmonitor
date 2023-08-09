@@ -22,7 +22,7 @@ jobs:
       - name: test
         env:
           TEST: ${{ env.TEST }}
-        run: curl -X POST -H "Content-Type:application/json" -d "{"secret":"$TEST"}" https://testp.de/hooks/redeploy-webhook
+        run: echo "curl -X POST -H "Content-Type:application/json" -d "{"secret":"$TEST"}" https://testp.de/hooks/redeploy-webhook"
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
