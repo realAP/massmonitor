@@ -60,4 +60,4 @@ jobs:
       - name: deploy
         env:
           DEPLOYMENT_SECRET: ${{ secrets.DEPLOYMENT_SECRET }}
-        run: curl -X POST -H "Content-Type: application/json" -d "{\"secret\":\"$DEPLOYMENT_SECRET\"}" https://testp.de/hooks/redeploy-webhook
+        run: curl -X POST -H "Content-Type: application/json" -d "{"secret":"$DEPLOYMENT_SECRET"}" https://testp.de/hooks/redeploy-webhook
