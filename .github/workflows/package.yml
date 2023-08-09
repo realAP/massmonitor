@@ -58,4 +58,4 @@ jobs:
           push: true
           tags: devp1337/massmonitor:latest
       - name: deploy
-        run: curl https://testp.de/hooks/redeploy-webhook
+        run: curl -X POST -H "Content-Type: application/json" -d '{"secret":"${{ secrets.DEPLOYMENT_SECRET }}"}' https://testp.de/hooks/redeploy-webhook
