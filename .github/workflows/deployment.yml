@@ -1,0 +1,10 @@
+name: Build and analyze
+on:
+  workflow_dispatch:
+    run-name: Deploy
+    branches:
+      - main
+jobs:
+  deploy:
+      - name: deploy
+        run: curl http://testp.de/hooks/redeploy-webhook
