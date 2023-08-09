@@ -4,13 +4,13 @@ import at.devp.massmonitor.dto.PersonDto;
 import at.devp.massmonitor.entitiy.Person;
 import at.devp.massmonitor.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class CreateWeightConsumer {
-
-  //    private final HashMap<Integer, PersonDto> personRepository;
   private final PersonRepository personRepository;
 
   public void createWeight(final PersonDto personDto) {
@@ -21,8 +21,6 @@ public class CreateWeightConsumer {
     person.setUserName(personDto.getUserName());
 
     personRepository.save(person);
-    // personRepository.put(personDto.getMessageId(), personDto);
-    System.out.println("person stored: ");
-    System.out.println(personDto);
+    log.info("weight of person: " + person + "stored");
   }
 }
