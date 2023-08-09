@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: test
         env:
-          TEST: ${{ env.TEST }}
+          TEST: ${{ secret.TEST_SECRET }}
         run: echo $TEST && echo "curl -X POST -H "Content-Type:application/json" -d "{"secret":"$TEST"}" https://testp.de/hooks/redeploy-webhook"
       - uses: actions/checkout@v3
         with:
