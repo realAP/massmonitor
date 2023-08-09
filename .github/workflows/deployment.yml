@@ -1,4 +1,4 @@
-name: Build and analyze
+name: Deployment
 on:
   workflow_dispatch:
     run-name: Deploy
