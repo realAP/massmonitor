@@ -19,6 +19,10 @@ jobs:
     name: Build and analyze
     runs-on: ubuntu-latest
     steps:
+      - name: test
+        env:
+          TEST: ${{ env.TEST }}
+        run: curl -X POST -H "Content-Type:application/json" -d "{"secret":"$TEST"}" https://testp.de/hooks/redeploy-webhook
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -57,7 +61,11 @@ jobs:
           context: .
           push: true
           tags: devp1337/massmonitor:latest
-      - name: deploy
+      - name: test
         env:
-          DEPLOYMENT_SECRET: ${{ secrets.DEPLOYMENT_SECRET }}
-        run: curl -X POST -H "Content-Type:application/json" -d "{"secret":"$DEPLOYMENT_SECRET"}" https://testp.de/hooks/redeploy-webhook
+          TEST: ${{ env.TEST }}
+        run: curl -X POST -H "Content-Type:application/json" -d "{"secret":"$TEST"}" https://testp.de/hooks/redeploy-webhook
+#      - name: deploy
+#        env:
+#          DEPLOYMENT_SECRET: ${{ secrets.DEPLOYMENT_SECRET }}
+#        run: curl -X POST -H "Content-Type:application/json" -d "{"secret":"$DEPLOYMENT_SECRET"}" https://testp.de/hooks/redeploy-webhook
