@@ -61,10 +61,6 @@ jobs:
           context: .
           push: true
           tags: devp1337/massmonitor:latest
-      - name: test
-        env:
-          TEST: ${{ env.TEST }}
-        run: curl -X POST -H "Content-Type:application/json" -d "{"secret":"$TEST"}" https://testp.de/hooks/redeploy-webhook
 #      - name: deploy
 #        env:
 #          DEPLOYMENT_SECRET: ${{ secrets.DEPLOYMENT_SECRET }}
