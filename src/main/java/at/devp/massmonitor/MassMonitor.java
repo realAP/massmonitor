@@ -78,11 +78,10 @@ public class MassMonitor extends TelegramLongPollingBot {
     telegramMessageHandler.consume(updateExtender, sendMessageConsumer);
   }
 
-  // TODO: need testing
   @Scheduled(cron = "0 */3 * * * *")
   public void reminder() {
     final var sendMessage = new SendMessage();
-    sendMessage.setChatId("855719721");
+    sendMessage.setChatId("-855719721");
     sendMessage.setText("hey fetti, ja du!!! steh auf und geh dich wiegen!");
     sendMessage(sendMessage);
     log.info("sendMessage: " + sendMessage);
