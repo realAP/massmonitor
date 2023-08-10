@@ -4,6 +4,7 @@ import at.devp.massmonitor.telegram.TelegramMessageHandler;
 import at.devp.massmonitor.telegram.helper.TestDataCollection;
 import at.devp.massmonitor.telegram.helper.UpdateExtenderBuilder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MassMonitor extends TelegramLongPollingBot {
 
   private final TelegramMessageHandler telegramMessageHandler;
@@ -77,12 +79,13 @@ public class MassMonitor extends TelegramLongPollingBot {
   }
 
   // TODO: need testing
-  @Scheduled(cron = "0 */5 * * * *")
+  @Scheduled(cron = "0 */3 * * * *")
   public void reminder() {
     final var sendMessage = new SendMessage();
-    sendMessage.setChatId("-100855719721");
+    sendMessage.setChatId("-855719721");
     sendMessage.setText("hey fetti, ja du!!! steh auf und geh dich wiegen!");
     sendMessage(sendMessage);
+    log.info("sendMessage: " + sendMessage);
   }
 
   public void sendMessage(@Nullable SendMessage message) {
