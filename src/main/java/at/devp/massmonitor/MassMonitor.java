@@ -6,6 +6,8 @@ import at.devp.massmonitor.telegram.helper.UpdateExtenderBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.UUID;
 import java.util.function.Consumer;
 
 @Service
@@ -78,11 +81,21 @@ public class MassMonitor extends TelegramLongPollingBot {
     telegramMessageHandler.consume(updateExtender, sendMessageConsumer);
   }
 
-  @Scheduled(cron = "0 */3 * * * *")
+  @EventListener
+  public void onApplicationEvent(ContextRefreshedEvent event) {
+    final var sendMessage = new SendMessage();
+    sendMessage.setChatId("-855719721");
+    sendMessage.setText("Massmonitor is ready!");
+    sendMessage(sendMessage);
+    log.info("sendMessage: " + sendMessage);
+  }
+
+
+  @Scheduled(cron = "0 0 6 ? * SUN,WED")
   public void reminder() {
     final var sendMessage = new SendMessage();
     sendMessage.setChatId("-855719721");
-    sendMessage.setText("hey fetti, ja du!!! steh auf und geh dich wiegen!");
+    sendMessage.setText("WIEGEN");
     sendMessage(sendMessage);
     log.info("sendMessage: " + sendMessage);
   }

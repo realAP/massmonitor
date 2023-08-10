@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 @Service
@@ -23,7 +24,7 @@ public class MessageCommandHandler implements HandlerIdentifier {
   private final CreateWeightConsumer createWeightConsumer;
 
 
-  public void consume(UpdateExtender extendedUpdate, Consumer<SendMessage> sendMessageConsumer) {
+  public void consume(final UpdateExtender extendedUpdate, final Consumer<SendMessage> sendMessageConsumer) {
 
     // interpret an update and retrieve command / crud type / and build object with is going out
     // from which can be do an aciton
@@ -34,20 +35,24 @@ public class MessageCommandHandler implements HandlerIdentifier {
     final Commands commands = commandsParser.getCommand(extendedUpdate);
     final String commandArgument = commandsParser.getArgumentOfCommand(extendedUpdate);
 
-    if (commands.equals(Commands.WEIGHT) && crudType.equals(CrudType.CREATE)) {
+    if (Objects.equals(commands, Commands.WEIGHT) && crudType.equals(CrudType.CREATE)) {
       // build entity dto and call business logic
       final PersonDto personDto = personDtoFactory.create(extendedUpdate, commandArgument);
       createWeightConsumer.createWeight(personDto);
+      informUserForCreation(extendedUpdate, sendMessageConsumer);
     }
 
+    // TODO use this information to create an Object which hold needed information
+    //  to create from this point what the business logic need, i am tired
+
+  }
+
+  private void informUserForCreation(final UpdateExtender extendedUpdate, final Consumer<SendMessage> sendMessageConsumer) {
     final var message = new SendMessage();
     message.setChatId(extendedUpdate.getUpdate().getMessage().getChatId().toString());
     message.setReplyToMessageId(extendedUpdate.getUpdate().getMessage().getMessageId());
     message.setText("created weight");
     sendMessageConsumer.accept(message);
-    // TODO use this information to create an Object which hold needed information
-    //  to create from this point what the business logic need, i am tired
-
   }
 
   @Override
