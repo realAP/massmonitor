@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
@@ -70,7 +71,16 @@ public class MassMonitor extends TelegramLongPollingBot {
   public void onUpdateReceived(Update update) {
     testDataCollector.collect(update);
     final var updateExtender = updateExtenderBuilder.createUpdateExtender(update);
-    telegramMessageHandler.consume(updateExtender);
+    Consumer<SendMessage> sendMessageConsumer = this::sendMessage;
+    telegramMessageHandler.consume(updateExtender, sendMessageConsumer);
+  }
+
+  public void sendMessage(@Nullable SendMessage message) {
+    try {
+      execute(message);
+    } catch (TelegramApiException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }

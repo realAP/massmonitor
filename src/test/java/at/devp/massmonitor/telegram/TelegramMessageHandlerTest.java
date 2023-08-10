@@ -7,11 +7,14 @@ import at.devp.massmonitor.telegram.helper.UpdateExtender;
 import at.devp.massmonitor.telegram.message.EditMessageCommandHandler;
 import at.devp.massmonitor.telegram.message.MessageCommandHandler;
 import java.util.List;
+import java.util.function.Consumer;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
@@ -53,9 +56,11 @@ class TelegramMessageHandlerTest {
     final Update update = createUpdateWithMessageCommand();
     final var extendedUpdate = new UpdateExtender(update);
 
-    underTest.consume(extendedUpdate);
+    // TODO: FIX ME
+    Consumer<SendMessage> sendMessageConsumer = (SendMessage) -> System.out.println("FIX ME");
+    underTest.consume(extendedUpdate, sendMessageConsumer);
 
-    verify(messageCommandHandler).consume(extendedUpdate);
+    verify(messageCommandHandler).consume(extendedUpdate, sendMessageConsumer);
     verifyNoInteractions(editMessageCommandHandler);
   }
 
@@ -65,7 +70,9 @@ class TelegramMessageHandlerTest {
     final var message = new Message();
     update.setMessage(message);
 
-    underTest.consume(new UpdateExtender(update));
+    // TODO: FIX ME
+    Consumer<SendMessage> sendMessageConsumer = (SendMessage) -> System.out.println("FIX ME");
+    underTest.consume(new UpdateExtender(update), sendMessageConsumer);
 
     verifyNoInteractions(messageCommandHandler);
     verifyNoInteractions(editMessageCommandHandler);
@@ -77,7 +84,9 @@ class TelegramMessageHandlerTest {
     final var message = new Message();
     update.setEditedMessage(message);
 
-    underTest.consume(new UpdateExtender(update));
+    // TODO: FIX ME
+    Consumer<SendMessage> sendMessageConsumer = (SendMessage) -> System.out.println("FIX ME");
+    underTest.consume(new UpdateExtender(update), sendMessageConsumer);
 
     verifyNoInteractions(messageCommandHandler);
     verifyNoInteractions(editMessageCommandHandler);
@@ -88,9 +97,11 @@ class TelegramMessageHandlerTest {
     final Update update = createUpdateWithEditedMessageCommand();
     final var extendedUpdate = new UpdateExtender(update);
 
-    underTest.consume(extendedUpdate);
+    // TODO: FIX ME
+    Consumer<SendMessage> sendMessageConsumer = (SendMessage) -> System.out.println("FIX ME");
+    underTest.consume(extendedUpdate, sendMessageConsumer);
 
-    verify(editMessageCommandHandler).consume(extendedUpdate);
+    verify(editMessageCommandHandler).consume(extendedUpdate, sendMessageConsumer);
     verifyNoInteractions(messageCommandHandler);
   }
 }
