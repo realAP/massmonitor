@@ -1,5 +1,6 @@
 package at.devp.massmonitor.telegram.message;
 
+import at.devp.massmonitor.MassMonitor;
 import at.devp.massmonitor.business.action.CreateWeightConsumer;
 import at.devp.massmonitor.crud.CrudType;
 import at.devp.massmonitor.dto.PersonDto;
@@ -10,6 +11,7 @@ import at.devp.massmonitor.telegram.commands.CrudTypeDetector;
 import at.devp.massmonitor.telegram.helper.UpdateExtender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +20,8 @@ public class MessageCommandHandler implements HandlerIdentifier {
   private final CrudTypeDetector crudTypeDetector;
   private final PersonDtoFactory personDtoFactory;
   private final CreateWeightConsumer createWeightConsumer;
+
+  private final MassMonitor.SenderService senderService;
 
   public void consume(UpdateExtender extendedUpdate) {
 
@@ -35,6 +39,11 @@ public class MessageCommandHandler implements HandlerIdentifier {
       final PersonDto personDto = personDtoFactory.create(extendedUpdate, commandArgument);
       createWeightConsumer.createWeight(personDto);
     }
+
+    final var message = new SendMessage();
+    message.setChatId(extendedUpdate.getUpdate().getMessage().getChatId().toString());
+    message.setText("created weight");
+    senderService.sendMessage(message);
     // TODO use this information to create an Object which hold needed information
     //  to create from this point what the business logic need, i am tired
 

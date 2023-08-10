@@ -71,17 +71,18 @@ public class MassMonitor extends TelegramLongPollingBot {
     testDataCollector.collect(update);
     final var updateExtender = updateExtenderBuilder.createUpdateExtender(update);
     telegramMessageHandler.consume(updateExtender);
-    final var message = new SendMessage();
-    message.setChatId(update.getMessage().getChatId().toString());
-    message.setText("saved your message");
-    sendMessage(message);
   }
 
-  private void sendMessage(@Nullable SendMessage message) {
-    try {
-      execute(message);
-    } catch (TelegramApiException e) {
-      throw new RuntimeException(e);
+  @Service
+  public class SenderService {
+
+    public void sendMessage(@Nullable SendMessage message) {
+      try {
+        execute(message);
+      } catch (TelegramApiException e) {
+        throw new RuntimeException(e);
+      }
     }
+
   }
 }
