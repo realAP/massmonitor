@@ -42,6 +42,7 @@ public class MessageCommandHandler implements HandlerIdentifier {
 
     final var message = new SendMessage();
     message.setChatId(extendedUpdate.getUpdate().getMessage().getChatId().toString());
+    message.setReplyToMessageId(extendedUpdate.getUpdate().getMessage().getMessageId());
     message.setText("created weight");
     sendMessageConsumer.accept(message);
     // TODO use this information to create an Object which hold needed information
