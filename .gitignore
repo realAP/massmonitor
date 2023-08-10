@@ -158,3 +158,4 @@ target
 /dataSources/
 /dataSources.local.xml
 /.idea/dataSources.xml
+/container/.env
