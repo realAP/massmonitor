@@ -1,6 +1,7 @@
 package at.devp.massmonitor.telegram.message;
 
 import at.devp.massmonitor.MassMonitor;
+import at.devp.massmonitor.SenderService;
 import at.devp.massmonitor.business.action.CreateWeightConsumer;
 import at.devp.massmonitor.crud.CrudType;
 import at.devp.massmonitor.dto.PersonDto;
@@ -21,7 +22,7 @@ public class MessageCommandHandler implements HandlerIdentifier {
   private final PersonDtoFactory personDtoFactory;
   private final CreateWeightConsumer createWeightConsumer;
 
-  private final MassMonitor.SenderService senderService;
+  private final SenderService senderService;
 
   public void consume(UpdateExtender extendedUpdate) {
 

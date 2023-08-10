@@ -73,16 +73,4 @@ public class MassMonitor extends TelegramLongPollingBot {
     telegramMessageHandler.consume(updateExtender);
   }
 
-  @Service
-  public class SenderService {
-
-    public void sendMessage(@Nullable SendMessage message) {
-      try {
-        execute(message);
-      } catch (TelegramApiException e) {
-        throw new RuntimeException(e);
-      }
-    }
-
-  }
 }
