@@ -26,6 +26,8 @@ services:
     restart: always
     networks:
       - massmonitor
+      - nginx
 
 networks:
  massmonitor:
+ nginx:
