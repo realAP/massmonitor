@@ -10,7 +10,6 @@ import javax.xml.bind.ValidationException;
 @Service
 @RequiredArgsConstructor
 public class PersonDtoFactory {
-
   private final WeightValidator weightValidator;
 
   public PersonDto create(UpdateExtender updateExtender, String weight) throws ValidationException {
