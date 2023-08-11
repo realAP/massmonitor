@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
+import javax.xml.bind.ValidationException;
 import java.util.function.Consumer;
 
 @Service
@@ -32,10 +33,18 @@ public class EditMessageCommandHandler implements HandlerIdentifier {
     final String commandArgument = commandsParser.getArgumentOfEditCommand(extendedUpdate);
 
     if (Commands.WEIGHT.equals(commands) && CrudType.UPDATE.equals(crudType)) {
-      final PersonDto personDto = personDtoFactory.createFromEdited(extendedUpdate, commandArgument);
-      updateWeightConsumer.updateWeight(personDto);
+      try {
+        final PersonDto personDto = personDtoFactory.createFromEdited(extendedUpdate, commandArgument);
+        updateWeightConsumer.updateWeight(personDto);
+        informUserForEdit(extendedUpdate, sendMessageConsumer, "updated weight");
+      } catch (ValidationException ve) {
+        informUserForEdit(extendedUpdate, sendMessageConsumer, "input is not a valid weight");
+      }
     }
 
+  }
+
+  private void informUserForEdit(UpdateExtender extendedUpdate, Consumer<SendMessage> sendMessageConsumer, final String text) {
     final var message = new SendMessage();
     message.setReplyToMessageId(extendedUpdate.getUpdate().getEditedMessage().getMessageId());
     message.setChatId(extendedUpdate.getUpdate().getEditedMessage().getChatId().toString());

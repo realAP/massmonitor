@@ -55,7 +55,7 @@ class PersonDtoFactoryTest {
 
   @Test
   void
-  whenCreateFromEditedGivenUpdateExtenderWithEditedMessageAndWeightThenReturnPersonWithRelevantData() {
+  whenCreateFromEditedGivenUpdateExtenderWithEditedMessageAndWeightThenReturnPersonWithRelevantData() throws ValidationException {
     final var expectedPerson = new PersonDto();
     expectedPerson.setWeight("80");
     expectedPerson.setMessageId(123);

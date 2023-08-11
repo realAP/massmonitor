@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import javax.xml.bind.ValidationException;
 import java.util.function.Consumer;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,7 +36,7 @@ class EditMessageCommandHandlerTest {
   @InjectMocks private EditMessageCommandHandler underTest;
 
   @Test
-  void consumeGivenWeight103ChangeCommandVerifyChangePersonIsCalled() {
+  void consumeGivenWeight103ChangeCommandVerifyChangePersonIsCalled() throws ValidationException {
     final var updateExtender = new UpdateExtender(new Update());
     when(crudTypeDetector.getType(updateExtender)).thenReturn(CrudType.UPDATE);
 

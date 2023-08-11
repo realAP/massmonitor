@@ -25,7 +25,9 @@ public class PersonDtoFactory {
     return person;
   }
 
-  public PersonDto createFromEdited(UpdateExtender updateExtender, String weight) {
+  public PersonDto createFromEdited(UpdateExtender updateExtender, String weight) throws ValidationException {
+    weightValidator.validate(weight);
+
     final var person = new PersonDto();
     person.setWeight(weight);
     person.setMessageId(updateExtender.getUpdate().getEditedMessage().getMessageId());
