@@ -1,7 +1,7 @@
 package at.devp.massmonitor.dto;
 
-import at.devp.massmonitor.validator.WeightValidator;
 import at.devp.massmonitor.telegram.helper.UpdateExtender;
+import at.devp.massmonitor.validator.WeightValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,6 @@ public class PersonDtoFactory {
   private final WeightValidator weightValidator;
 
   public PersonDto create(UpdateExtender updateExtender, String weight) throws ValidationException {
-
     weightValidator.validate(weight);
 
     final var person = new PersonDto();

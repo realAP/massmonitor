@@ -4,6 +4,7 @@ import at.devp.massmonitor.business.action.CreateWeightConsumer;
 import at.devp.massmonitor.crud.CrudType;
 import at.devp.massmonitor.dto.PersonDto;
 import at.devp.massmonitor.dto.PersonDtoFactory;
+import at.devp.massmonitor.telegram.MessageSender;
 import at.devp.massmonitor.telegram.commands.Commands;
 import at.devp.massmonitor.telegram.commands.CommandsParser;
 import at.devp.massmonitor.telegram.commands.CrudTypeDetector;
@@ -24,41 +25,38 @@ public class MessageCommandHandler implements HandlerIdentifier {
   private final PersonDtoFactory personDtoFactory;
   private final CreateWeightConsumer createWeightConsumer;
 
+  private final MessageSender messageSender;
+
 
   public void consume(final UpdateExtender extendedUpdate, final Consumer<SendMessage> sendMessageConsumer) {
-
-    // interpret an update and retrieve command / crud type / and build object with is going out
-    // from which can be do an aciton
-
-    //
-
     final CrudType crudType = crudTypeDetector.getType(extendedUpdate);
     final Commands commands = commandsParser.getCommand(extendedUpdate);
     final String commandArgument = commandsParser.getArgumentOfCommand(extendedUpdate);
 
-    if (Objects.equals(commands, Commands.WEIGHT) && crudType.equals(CrudType.CREATE)) {
+    if (Objects.equals(commands, Commands.WEIGHT) && CrudType.CREATE.equals(crudType)) {
       // build entity dto and call business logic
       try {
         final PersonDto personDto = personDtoFactory.create(extendedUpdate, commandArgument);
         createWeightConsumer.createWeight(personDto);
-        informUserForCreation(extendedUpdate, sendMessageConsumer, "created weight");
-      }
-      catch (ValidationException ve) {
-        informUserForCreation(extendedUpdate, sendMessageConsumer, "input is not a valid weight");
+        messageSender.informUser(
+            extendedUpdate.getUpdate().getMessage().getMessageId(),
+            extendedUpdate.getUpdate().getMessage().getChatId().toString(),
+            sendMessageConsumer,
+            "created weight"
+        );
+      } catch (ValidationException ve) {
+        messageSender.informUser(
+            extendedUpdate.getUpdate().getMessage().getMessageId(),
+            extendedUpdate.getUpdate().getMessage().getChatId().toString(),
+            sendMessageConsumer,
+            "input is not a valid weight"
+        );
       }
     }
 
     // TODO use this information to create an Object which hold needed information
     //  to create from this point what the business logic need, i am tired
 
-  }
-
-  private void informUserForCreation(final UpdateExtender extendedUpdate, final Consumer<SendMessage> sendMessageConsumer, final String text) {
-    final var message = new SendMessage();
-    message.setChatId(extendedUpdate.getUpdate().getMessage().getChatId().toString());
-    message.setReplyToMessageId(extendedUpdate.getUpdate().getMessage().getMessageId());
-    message.setText(text);
-    sendMessageConsumer.accept(message);
   }
 
   @Override

@@ -8,6 +8,7 @@ import at.devp.massmonitor.business.action.UpdateWeightConsumer;
 import at.devp.massmonitor.crud.CrudType;
 import at.devp.massmonitor.dto.PersonDto;
 import at.devp.massmonitor.dto.PersonDtoFactory;
+import at.devp.massmonitor.telegram.MessageSender;
 import at.devp.massmonitor.telegram.commands.Commands;
 import at.devp.massmonitor.telegram.commands.CommandsParser;
 import at.devp.massmonitor.telegram.commands.CrudTypeDetector;
@@ -35,6 +36,8 @@ class MessageCommandHandlerTest {
   @Mock private UpdateWeightConsumer updateWeightConsumer;
 
   @Mock private PersonDtoFactory personDtoFactory;
+
+  @Mock private MessageSender messageSender;
 
   @InjectMocks private MessageCommandHandler underTest;
 

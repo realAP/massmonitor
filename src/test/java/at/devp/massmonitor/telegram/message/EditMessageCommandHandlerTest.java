@@ -1,12 +1,10 @@
 package at.devp.massmonitor.telegram.message;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import at.devp.massmonitor.business.action.UpdateWeightConsumer;
 import at.devp.massmonitor.crud.CrudType;
 import at.devp.massmonitor.dto.PersonDto;
 import at.devp.massmonitor.dto.PersonDtoFactory;
+import at.devp.massmonitor.telegram.MessageSender;
 import at.devp.massmonitor.telegram.commands.Commands;
 import at.devp.massmonitor.telegram.commands.CommandsParser;
 import at.devp.massmonitor.telegram.commands.CrudTypeDetector;
@@ -22,18 +20,29 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import javax.xml.bind.ValidationException;
 import java.util.function.Consumer;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class EditMessageCommandHandlerTest {
 
-  @Mock private CrudTypeDetector crudTypeDetector;
+  @Mock
+  private CrudTypeDetector crudTypeDetector;
 
-  @Mock private CommandsParser commandsParser;
+  @Mock
+  private CommandsParser commandsParser;
 
-  @Mock private UpdateWeightConsumer updateWeightConsumer;
+  @Mock
+  private UpdateWeightConsumer updateWeightConsumer;
 
-  @Mock private PersonDtoFactory personDtoFactory;
+  @Mock
+  private PersonDtoFactory personDtoFactory;
 
-  @InjectMocks private EditMessageCommandHandler underTest;
+  @Mock
+  private MessageSender messageSender;
+
+  @InjectMocks
+  private EditMessageCommandHandler underTest;
 
   @Test
   void consumeGivenWeight103ChangeCommandVerifyChangePersonIsCalled() throws ValidationException {

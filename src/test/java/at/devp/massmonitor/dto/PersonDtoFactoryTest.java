@@ -1,7 +1,7 @@
 package at.devp.massmonitor.dto;
 
-import at.devp.massmonitor.validator.WeightValidator;
 import at.devp.massmonitor.telegram.helper.UpdateExtender;
+import at.devp.massmonitor.validator.WeightValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +16,8 @@ import javax.xml.bind.ValidationException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.verify;
+import static reactor.core.publisher.Mono.when;
 
 @ExtendWith(MockitoExtension.class)
 class PersonDtoFactoryTest {
@@ -51,6 +53,7 @@ class PersonDtoFactoryTest {
     final var result = underTest.create(updateExtender, expectedPerson.getWeight());
 
     assertThat(result, is(expectedPerson));
+    verify(weightValidator).validate(expectedPerson.getWeight());
   }
 
   @Test
@@ -80,5 +83,6 @@ class PersonDtoFactoryTest {
     final var result = underTest.createFromEdited(updateExtender, expectedPerson.getWeight());
 
     assertThat(result, is(expectedPerson));
+    verify(weightValidator).validate(expectedPerson.getWeight());
   }
 }
