@@ -1,12 +1,11 @@
 package at.devp.massmonitor.dto;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
+import at.devp.massmonitor.business.action.WeightValidator;
 import at.devp.massmonitor.telegram.helper.UpdateExtender;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -15,10 +14,16 @@ import org.telegram.telegrambots.meta.api.objects.User;
 
 import javax.xml.bind.ValidationException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
 @ExtendWith(MockitoExtension.class)
 class PersonDtoFactoryTest {
 
-  @InjectMocks private PersonDtoFactory underTest;
+  @Mock
+  private WeightValidator weightValidator;
+  @InjectMocks
+  private PersonDtoFactory underTest;
 
   @Test
   void whenCreateGivenUpdateExtenderWithMessageAndWeightThenReturnPersonWithRelevantData() throws ValidationException {
@@ -50,7 +55,7 @@ class PersonDtoFactoryTest {
 
   @Test
   void
-      whenCreateFromEditedGivenUpdateExtenderWithEditedMessageAndWeightThenReturnPersonWithRelevantData() {
+  whenCreateFromEditedGivenUpdateExtenderWithEditedMessageAndWeightThenReturnPersonWithRelevantData() {
     final var expectedPerson = new PersonDto();
     expectedPerson.setWeight("80");
     expectedPerson.setMessageId(123);
