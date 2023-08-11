@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
+import javax.xml.bind.ValidationException;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -37,9 +38,14 @@ public class MessageCommandHandler implements HandlerIdentifier {
 
     if (Objects.equals(commands, Commands.WEIGHT) && crudType.equals(CrudType.CREATE)) {
       // build entity dto and call business logic
-      final PersonDto personDto = personDtoFactory.create(extendedUpdate, commandArgument);
-      createWeightConsumer.createWeight(personDto);
-      informUserForCreation(extendedUpdate, sendMessageConsumer);
+      try {
+        final PersonDto personDto = personDtoFactory.create(extendedUpdate, commandArgument);
+        createWeightConsumer.createWeight(personDto);
+        informUserForCreation(extendedUpdate, sendMessageConsumer, "created weight");
+      }
+      catch (ValidationException ve) {
+        informUserForCreation(extendedUpdate, sendMessageConsumer, "input is not a valid weight");
+      }
     }
 
     // TODO use this information to create an Object which hold needed information
@@ -47,11 +53,11 @@ public class MessageCommandHandler implements HandlerIdentifier {
 
   }
 
-  private void informUserForCreation(final UpdateExtender extendedUpdate, final Consumer<SendMessage> sendMessageConsumer) {
+  private void informUserForCreation(final UpdateExtender extendedUpdate, final Consumer<SendMessage> sendMessageConsumer, final String text) {
     final var message = new SendMessage();
     message.setChatId(extendedUpdate.getUpdate().getMessage().getChatId().toString());
     message.setReplyToMessageId(extendedUpdate.getUpdate().getMessage().getMessageId());
-    message.setText("created weight");
+    message.setText(text);
     sendMessageConsumer.accept(message);
   }
 

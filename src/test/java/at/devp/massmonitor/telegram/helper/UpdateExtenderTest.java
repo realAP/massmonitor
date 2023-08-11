@@ -10,10 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.telegram.telegrambots.meta.api.objects.EntityType;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.MessageEntity;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.*;
 
 class UpdateExtenderTest {
 
@@ -167,5 +164,19 @@ class UpdateExtenderTest {
     final var result = underTest.getCommand();
 
     assertThat(result, nullValue());
+  }
+
+  // TODO:
+  @Test
+  void whenGetMessageChatIdGivenMessageChatIdThenReturnMessageChatId() {
+    final var update = createUpdate(true, false);
+    //update.getMessage().getChat().setId();
+
+    final var underTest = new UpdateExtender(update);
+
+    final var result = underTest.getCommand();
+
+    assertThat(result, nullValue());
+
   }
 }

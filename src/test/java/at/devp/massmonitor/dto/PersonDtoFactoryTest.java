@@ -13,13 +13,15 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 
+import javax.xml.bind.ValidationException;
+
 @ExtendWith(MockitoExtension.class)
 class PersonDtoFactoryTest {
 
   @InjectMocks private PersonDtoFactory underTest;
 
   @Test
-  void whenCreateGivenUpdateExtenderWithMessageAndWeightThenReturnPersonWithRelevantData() {
+  void whenCreateGivenUpdateExtenderWithMessageAndWeightThenReturnPersonWithRelevantData() throws ValidationException {
     final var expectedPerson = new PersonDto();
     expectedPerson.setWeight("80");
     expectedPerson.setMessageId(123);
