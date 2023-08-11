@@ -1,0 +1,14 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <logger name="org.springframework.web" level="ERROR">
+        <appender-ref ref="CONSOLE">
+            <filter class="ch.qos.logback.classic.filter.ThrowableProxyConverter">
+                <excludes>SpecificExceptionName</excludes>
+            </filter>
+        </appender-ref>
+    </logger>
+</configuration>
