@@ -55,4 +55,6 @@ class EditMessageCommandHandlerTest {
 
     verify(updateWeightConsumer).updateWeight(expectedPerson);
   }
+
+  // TODO: add test for error case
 }

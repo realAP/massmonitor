@@ -57,4 +57,6 @@ class MessageCommandHandlerTest {
 
     verify(createWeightConsumer).createWeight(expectedPerson);
   }
+
+  // TODO: add test for error case
 }

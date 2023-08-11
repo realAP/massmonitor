@@ -1,6 +1,6 @@
 package at.devp.massmonitor.dto;
 
-import at.devp.massmonitor.business.action.WeightValidator;
+import at.devp.massmonitor.validator.WeightValidator;
 import at.devp.massmonitor.telegram.helper.UpdateExtender;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

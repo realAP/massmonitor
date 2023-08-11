@@ -20,6 +20,7 @@ public class Person {
   @Column
   private Integer creationTime;
 
+  // TODO make integer and add validation
   @Column
   private String weight;
 

@@ -50,7 +50,7 @@ public class EditMessageCommandHandler implements HandlerIdentifier {
     message.setChatId(extendedUpdate.getUpdate().getEditedMessage().getChatId().toString());
     log.info("messagId: " + extendedUpdate.getUpdate().getEditedMessage().getMessageId());
     log.info("chatId: " + extendedUpdate.getUpdate().getEditedMessage().getChatId().toString());
-    message.setText("updated weight");
+    message.setText(text);
     sendMessageConsumer.accept(message);
   }
 

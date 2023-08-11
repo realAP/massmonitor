@@ -1,4 +1,4 @@
-package at.devp.massmonitor.business.action;
+package at.devp.massmonitor.validator;
 
 
 import org.springframework.stereotype.Service;
