@@ -1,6 +1,11 @@
 name: Build and analyze
 on:
   workflow_dispatch:
+    inputs:
+      docker_image_tag:
+        description: 'Docker Image Tag'
+        required: false
+        default: 'latest'
     run-name: Build and analyze
     branches:
       - main
