@@ -20,6 +20,14 @@ permissions:
   pull-requests: read # allows SonarCloud to decorate PRs with analysis results
 jobs:
 
+  variable-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Variable
+        run: myvar="hello"
+      - name: use this variable
+        run: echo $myvar
+
   publish-validator:
     runs-on: ubuntu-latest
     outputs:
